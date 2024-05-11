@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { fetchTracks } from '@/data/fetchTracks';
+import { devtools } from 'zustand/middleware';
 
 export type Track = {
   id: number;
@@ -13,30 +13,28 @@ export type Track = {
 
 type State = {
   tracks: Track[];
+  currentTrackId: number;
 };
 
 type Actions = {
-  setTracks: () => void;
+  setCurrentTrackId: (id: number) => void;
+  toggleFavorite: (id: number) => void;
 };
 
-export const useStore = create<State & Actions>()(
-  immer(set => ({
-    tracks: [],
-    setTracks: async () => {
-      try {
-        const response = (await fetchTracks()) as Array<object>;
+type Store = State & Actions;
 
-        const tracks = response.map(responseObj => {
-          return {
-            ...responseObj,
-            favorite: false,
-          };
-        }) as Track[];
+export const useStore = create<Store>()(
+  immer(
+    devtools(set => ({
+      tracks: [],
+      currentTrackId: 1,
+      setCurrentTrackId: (id: number) => set({ currentTrackId: id }),
+      toggleFavorite: (id: number) =>
+        set(state => {
+          const track = state.tracks.find(track => track.id === id) as Track;
 
-        set({ tracks });
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  }))
+          track.favorite = !track.favorite;
+        }),
+    }))
+  )
 );
