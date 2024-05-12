@@ -5,7 +5,7 @@ import { useStore, type Track } from '@/store';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function Track({ track, isCurrent }: { track: Track; isCurrent: boolean }) {
-  const setCurrentTrackId = useStore(state => state.setCurrentTrackId);
+  const setCurrentTrack = useStore(state => state.setCurrentTrack);
 
   const containerClasses = classNames(
     'flex justify-between items-center m-2 p-2 text-sm font-medium border-4 rounded',
@@ -16,7 +16,7 @@ function Track({ track, isCurrent }: { track: Track; isCurrent: boolean }) {
   );
   return (
     <div className={containerClasses}>
-      <button onClick={() => setCurrentTrackId(track.id)}>
+      <button onClick={() => setCurrentTrack(track.id)}>
         <div className="flex items-center">
           <img src={track.cover} alt="cover" className="size-12" />
           <div className="flex flex-col items-start ml-2">

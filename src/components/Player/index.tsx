@@ -1,17 +1,36 @@
-import { useStore } from '@/store';
-import useCurrentTrack from '@/hooks/useCurrentTrack';
-
-import Controls from './Controls';
-import Progress from './Progress';
+import { useEffect } from 'react';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+
+import { useStore } from '@/store';
+import { usePlayStatus } from '@/hooks/usePlayStatus';
+
+import Controls from './Controls';
+import Progress from './Progress';
 
 function Player() {
-  const currentTrack = useCurrentTrack();
+  const { isPlaying, toggleIsPlaying } = usePlayStatus();
+
+  const currentTrack = useStore(state => state.currentTrack);
+  const sound = useStore(state => state.sound);
+  const setSound = useStore(state => state.setSound);
+
+  useEffect(() => {
+    if (currentTrack) {
+      setSound(currentTrack.audioFilePath);
+    }
+  }, [currentTrack, setSound]);
 
   const toggleFavorite = useStore(state => state.toggleFavorite);
+
+  function handlePlayToggle() {
+    if (isPlaying) sound.pause();
+    else sound.play();
+    toggleIsPlaying();
+  }
 
   if (!currentTrack) return;
 
@@ -25,19 +44,21 @@ function Player() {
         />
       </div>
       <div className="flex justify-end">
-        {currentTrack.favorite ? (
-          <button onClick={() => toggleFavorite(currentTrack.id)}>
+        <button onClick={() => toggleFavorite(currentTrack.id)}>
+          {currentTrack.favorite ? (
             <FavoriteIcon fontSize="large" />
-          </button>
-        ) : (
-          <button onClick={() => toggleFavorite(currentTrack.id)}>
+          ) : (
             <FavoriteBorderIcon fontSize="large" />
-          </button>
-        )}
+          )}
+        </button>
       </div>
       <div className="flex items-center mb-4">
-        <button>
-          <PlayCircleIcon sx={{ fontSize: 100 }} />
+        <button onClick={handlePlayToggle}>
+          {isPlaying ? (
+            <PauseCircleIcon sx={{ fontSize: 100 }} />
+          ) : (
+            <PlayCircleIcon sx={{ fontSize: 100 }} />
+          )}
         </button>
         <p className="text-2xl ml-2 font-medium">
           {currentTrack.title} by {currentTrack.artist}
