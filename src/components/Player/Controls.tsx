@@ -4,6 +4,8 @@ import { useStore } from '@/store';
 
 import { usePlayStatus } from '@/hooks/usePlayStatus';
 
+import Volume from './Volume';
+
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -64,7 +66,7 @@ function Controls() {
           <SkipNextIcon />
         </button>
       </div>
-      <div>Volume</div>
+      <Volume />
     </div>
   );
 }
