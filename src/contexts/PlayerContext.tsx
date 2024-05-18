@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export const PlayStatusContext = createContext({
+export const PlayerContext = createContext({
   isPlaying: false,
   toggleIsPlaying: {} as () => void,
 });

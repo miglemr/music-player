@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
 
-import { Howl } from 'howler';
+import { getNextTrack } from '@/lib/utils';
 
 export type Track = {
   id: number;
@@ -10,19 +10,20 @@ export type Track = {
   title: string;
   cover: string;
   audioFilePath: string;
+  duration: string;
   favorite: boolean;
 };
 
 type State = {
   tracks: Track[];
   currentTrack: Track;
-  sound: Howl;
+  audio: Howl | null;
 };
 
 type Actions = {
   setCurrentTrack: (id: number) => void;
+  setNextTrack: () => void;
   toggleFavorite: (id: number) => void;
-  setSound: (src: string) => void;
 };
 
 type Store = State & Actions;
@@ -32,24 +33,27 @@ export const useStore = create<Store>()(
     devtools(set => ({
       tracks: [],
       currentTrack: {} as Track,
-      sound: {} as Howl,
+      audio: null,
       setCurrentTrack: (id: number) =>
         set(state => {
           const track = state.tracks.find(track => track.id === id) as Track;
 
           state.currentTrack = track;
         }),
+      setNextTrack: () =>
+        set(state => {
+          const nextTrack = getNextTrack(state.tracks, state.currentTrack);
+
+          state.currentTrack = nextTrack;
+        }),
       toggleFavorite: (id: number) =>
         set(state => {
           const track = state.tracks.find(track => track.id === id) as Track;
 
           track.favorite = !track.favorite;
-        }),
-      setSound: (src: string) =>
-        set({
-          sound: new Howl({
-            src: [src],
-          }),
+
+          if (id === state.currentTrack.id)
+            state.currentTrack.favorite = !state.currentTrack.favorite;
         }),
     }))
   )

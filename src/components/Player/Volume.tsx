@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import { Howler } from 'howler';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import VolumeDown from '@mui/icons-material/VolumeDown';
-
-import { Howler } from 'howler';
 
 function Volume() {
   const [volume, setVolume] = useState<number>(0.5);
@@ -16,6 +15,7 @@ function Volume() {
   function handleVolumeChange(_event: Event, newValue: number | number[]) {
     setVolume(newValue as number);
   }
+
   return (
     <div className="flex items-center">
       <VolumeDown />

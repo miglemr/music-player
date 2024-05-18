@@ -1,56 +1,42 @@
-import { useEffect } from 'react';
-
-import { useStore } from '@/store';
-
-import { usePlayStatus } from '@/hooks/usePlayStatus';
-
-import Volume from './Volume';
-
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
+import { useStore } from '@/store';
+import { usePlayer } from '@/hooks/usePlayer';
+import { createHowl, getNextTrack, getPrevTrack } from '@/lib/utils';
+
+import Volume from './Volume';
+
 function Controls() {
-  const { isPlaying, toggleIsPlaying } = usePlayStatus();
+  const { isPlaying, toggleIsPlaying } = usePlayer();
 
-  const { sound, setSound, tracks, currentTrack, setCurrentTrack } = useStore();
-
-  useEffect(() => {
-    setSound(currentTrack.audioFilePath);
-  }, [currentTrack, setSound]);
-
-  useEffect(() => {
-    if (isPlaying) sound.play();
-  }, [sound, isPlaying]);
-
-  function handlePlayToggle() {
-    isPlaying ? sound.pause() : sound.play();
-    toggleIsPlaying();
-  }
+  const { tracks, currentTrack, setCurrentTrack, setNextTrack, audio } =
+    useStore();
 
   function handlePrevClick() {
-    const currentTrackIndex = getCurrentTrackIndex();
-    const prevTrackIndex =
-      currentTrackIndex === 0 ? tracks.length - 1 : currentTrackIndex - 1;
+    const prevTrack = getPrevTrack(tracks, currentTrack);
+    const howl = createHowl(prevTrack.audioFilePath, true, setNextTrack);
 
-    sound.stop();
+    setCurrentTrack(prevTrack.id);
 
-    setCurrentTrack(tracks[prevTrackIndex].id);
+    audio?.unload();
+    useStore.setState({
+      audio: howl,
+    });
   }
 
   function handleNextClick() {
-    const currentTrackIndex = getCurrentTrackIndex();
-    const nextTrackIndex =
-      currentTrackIndex === tracks.length - 1 ? 0 : currentTrackIndex + 1;
+    const nextTrack = getNextTrack(tracks, currentTrack);
+    const howl = createHowl(nextTrack.audioFilePath, true, setNextTrack);
 
-    sound.stop();
+    setCurrentTrack(nextTrack.id);
 
-    setCurrentTrack(tracks[nextTrackIndex].id);
-  }
-
-  function getCurrentTrackIndex() {
-    return tracks.findIndex(track => track.id === currentTrack.id);
+    audio?.unload();
+    useStore.setState({
+      audio: howl,
+    });
   }
 
   return (
@@ -59,7 +45,7 @@ function Controls() {
         <button onClick={handlePrevClick}>
           <SkipPreviousIcon />
         </button>
-        <button onClick={handlePlayToggle}>
+        <button onClick={toggleIsPlaying}>
           {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
         </button>
         <button onClick={handleNextClick}>
