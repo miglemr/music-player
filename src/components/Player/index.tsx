@@ -7,7 +7,7 @@ import { useStore } from '@/store';
 import { usePlayer } from '@/hooks/usePlayer';
 
 import Controls from './Controls';
-import Progress from './Progress';
+import ProgressBar from './ProgressBar';
 
 function Player() {
   const { isPlaying, toggleIsPlaying } = usePlayer();
@@ -45,7 +45,7 @@ function Player() {
           {currentTrack.title} by {currentTrack.artist}
         </p>
       </div>
-      <Progress />
+      <ProgressBar />
       <Controls />
     </>
   );

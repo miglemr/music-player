@@ -21,6 +21,8 @@ function Controls() {
 
     setCurrentTrack(prevTrack.id);
 
+    console.log('handleprevclick');
+
     audio?.unload();
     useStore.setState({
       audio: howl,
@@ -32,6 +34,8 @@ function Controls() {
     const howl = createHowl(nextTrack.audioFilePath, true, setNextTrack);
 
     setCurrentTrack(nextTrack.id);
+
+    console.log('handlenextclick');
 
     audio?.unload();
     useStore.setState({

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
 
-import { getNextTrack } from '@/lib/utils';
+import { createHowl, getNextTrack } from '@/lib/utils';
 
 export type Track = {
   id: number;
@@ -43,8 +43,14 @@ export const useStore = create<Store>()(
       setNextTrack: () =>
         set(state => {
           const nextTrack = getNextTrack(state.tracks, state.currentTrack);
+          const howl = createHowl(
+            nextTrack.audioFilePath,
+            true,
+            state.setNextTrack
+          );
 
           state.currentTrack = nextTrack;
+          state.audio = howl;
         }),
       toggleFavorite: (id: number) =>
         set(state => {

@@ -17,7 +17,7 @@ export const fetchTracks = () =>
         cover:
           'https://linkstorage.linkfire.com/medialinks/images/e35d3a7a-0f32-4ae3-a1eb-2a46aacc1cb0/artwork-440x440.jpg',
         audioFilePath: '/audio/Sam-Day-18_28-OUTBOUND.mp3',
-        duration: '3:00',
+        duration: '1:23',
       },
       {
         id: 3,
