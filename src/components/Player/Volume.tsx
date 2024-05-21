@@ -18,12 +18,12 @@ function Volume() {
 
   return (
     <div className="flex items-center">
-      <VolumeDown />
+      <VolumeDown sx={{ color: '#fff' }} />
       <Box sx={{ width: 100, marginTop: 1 }}>
         <Slider
           size="small"
           aria-label="Volume"
-          color="secondary"
+          sx={{ color: '#fff' }}
           value={volume}
           min={0.0}
           step={0.00000001}

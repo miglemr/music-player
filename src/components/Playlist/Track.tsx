@@ -30,10 +30,12 @@ function Track({ track, isCurrent }: { track: Track; isCurrent: boolean }) {
       <button onClick={handleClick}>
         <div className="flex items-center">
           <img src={track.cover} alt="cover" className="size-12" />
-          <div className="flex flex-col items-start ml-2 truncate">
+          <div className="flex flex-col items-start ml-2 truncate font-normal">
             <p>{track.artist}</p>
             <p>{track.title}</p>
-            <p className="text-xs">{track.duration.padStart(5, '0')}</p>
+            <p className="text-xs text-slate-600">
+              {track.duration.padStart(5, '0')}
+            </p>
           </div>
         </div>
       </button>

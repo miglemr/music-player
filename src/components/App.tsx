@@ -12,14 +12,14 @@ function App() {
   return (
     <PlayerProvider>
       <div className="h-screen lg:flex ">
-        <div className="container mx-auto px-0 lg:w-3/4">
+        <div className="container mx-auto px-0 lg:w-3/4 ">
           <Player />
         </div>
-        <div className="lg:w-1/4 overflow-y-auto h-screen border-l-2 hidden lg:block">
+        <div className="lg:w-1/4 overflow-y-auto h-screen border-l-2 hidden lg:block ">
           <Playlist />
         </div>
       </div>
-      <div className="flex justify-between items-center px-4 fixed bottom-0 w-full border-t-2 bg-white">
+      <div className="flex justify-between items-center px-4 fixed bottom-0 w-full  bg-stone-800">
         <Controls />
         <Volume />
       </div>

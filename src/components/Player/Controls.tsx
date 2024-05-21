@@ -40,13 +40,17 @@ function Controls() {
   return (
     <div>
       <button onClick={handlePrevClick}>
-        <SkipPreviousIcon />
+        <SkipPreviousIcon sx={{ color: '#fff' }} />
       </button>
       <button onClick={toggleIsPlaying}>
-        {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+        {isPlaying ? (
+          <PauseIcon sx={{ color: '#fff' }} />
+        ) : (
+          <PlayArrowIcon sx={{ color: '#fff' }} />
+        )}
       </button>
       <button onClick={handleNextClick}>
-        <SkipNextIcon />
+        <SkipNextIcon sx={{ color: '#fff' }} />
       </button>
     </div>
   );

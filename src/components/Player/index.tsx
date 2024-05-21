@@ -27,7 +27,7 @@ function Player() {
 
   return (
     <>
-      <div>
+      <div className="bg-stone-800 p-4">
         <div className="flex justify-center py-4 items-center">
           <img
             src={currentTrack.cover}
@@ -36,7 +36,11 @@ function Player() {
           />
         </div>
         <div className="flex justify-end my-4">
-          <FavoriteButton track={currentTrack} size="large" />
+          <FavoriteButton
+            track={currentTrack}
+            size="large"
+            borderColor="#C73659"
+          />
         </div>
       </div>
       <div className="p-6">
