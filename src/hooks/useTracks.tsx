@@ -9,35 +9,34 @@ function useTracks() {
 
   useEffect(() => {
     const getTracks = async () => {
-      try {
-        const response = (await fetchTracks()) as Array<
-          Omit<Track, 'favorite'>
-        >;
+      const response = (await fetchTracks()) as Array<Omit<Track, 'favorite'>>;
 
-        const tracks = response.map(responseObj => {
-          return {
-            ...responseObj,
-            favorite: false,
-          };
-        });
+      const tracks = response.map(responseObj => {
+        return {
+          ...responseObj,
+          favorite: false,
+        };
+      });
 
-        return tracks;
-      } catch (error) {
-        console.error(error);
-      }
+      return tracks;
     };
 
-    getTracks().then(tracks => {
-      if (tracks) {
-        const howl = createHowl(tracks[0].audioFilePath, false, setNextTrack);
+    getTracks()
+      .then(tracks => {
+        if (tracks) {
+          const howl = createHowl(tracks[0].audioFilePath, false, setNextTrack);
 
-        useStore.setState({ tracks });
-        useStore.setState({ currentTrack: tracks[0] });
-        useStore.setState({
-          audio: howl,
-        });
-      }
-    });
+          useStore.setState({ tracks });
+          useStore.setState({ currentTrack: tracks[0] });
+          useStore.setState({
+            audio: howl,
+          });
+        }
+      })
+      .catch(error => {
+        // eslint-disable-next-line
+        console.error(error);
+      });
   }, [setNextTrack]);
 }
 export default useTracks;

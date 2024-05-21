@@ -1,11 +1,10 @@
-import Player from '@/components/Player';
-import Playlist from '@/components/Playlist';
-
 import { PlayerProvider } from '@/contexts';
 import useTracks from '@/hooks/useTracks';
 
-import Controls from './Player/Controls';
-import Volume from './Player/Volume';
+import Player from '@/components/Player';
+import Playlist from '@/components/Playlist';
+import Controls from '@/components/Player/Controls';
+import Volume from '@/components/Player/Volume';
 
 function App() {
   useTracks();
