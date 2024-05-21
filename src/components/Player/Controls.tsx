@@ -7,8 +7,6 @@ import { useStore } from '@/store';
 import { usePlayer } from '@/hooks/usePlayer';
 import { createHowl, getNextTrack, getPrevTrack } from '@/lib/utils';
 
-import Volume from './Volume';
-
 function Controls() {
   const { isPlaying, toggleIsPlaying } = usePlayer();
 
@@ -20,8 +18,6 @@ function Controls() {
     const howl = createHowl(prevTrack.audioFilePath, true, setNextTrack);
 
     setCurrentTrack(prevTrack.id);
-
-    console.log('handleprevclick');
 
     audio?.unload();
     useStore.setState({
@@ -35,8 +31,6 @@ function Controls() {
 
     setCurrentTrack(nextTrack.id);
 
-    console.log('handlenextclick');
-
     audio?.unload();
     useStore.setState({
       audio: howl,
@@ -44,19 +38,16 @@ function Controls() {
   }
 
   return (
-    <div className="flex justify-between">
-      <div className="flex">
-        <button onClick={handlePrevClick}>
-          <SkipPreviousIcon />
-        </button>
-        <button onClick={toggleIsPlaying}>
-          {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-        </button>
-        <button onClick={handleNextClick}>
-          <SkipNextIcon />
-        </button>
-      </div>
-      <Volume />
+    <div>
+      <button onClick={handlePrevClick}>
+        <SkipPreviousIcon />
+      </button>
+      <button onClick={toggleIsPlaying}>
+        {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+      </button>
+      <button onClick={handleNextClick}>
+        <SkipNextIcon />
+      </button>
     </div>
   );
 }

@@ -1,52 +1,58 @@
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import { useState } from 'react';
+
+import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useStore } from '@/store';
-import { usePlayer } from '@/hooks/usePlayer';
 
-import Controls from './Controls';
+import Playlist from '@/components/Playlist';
+import FavoriteButton from '@/components/FavoriteButton';
 import ProgressBar from './ProgressBar';
+import PlayButton from './PlayButton';
 
 function Player() {
-  const { isPlaying, toggleIsPlaying } = usePlayer();
+  const [showPlaylist, setShowPlaylist] = useState(false);
 
   const currentTrack = useStore(state => state.currentTrack);
-  const toggleFavorite = useStore(state => state.toggleFavorite);
+
+  if (showPlaylist)
+    return (
+      <div className="lg:hidden">
+        <button onClick={() => setShowPlaylist(prev => !prev)}>
+          <CloseIcon />
+        </button>
+        <Playlist />
+      </div>
+    );
 
   return (
     <>
-      <div className="flex justify-center items-center h-80">
-        <img
-          src={currentTrack.cover}
-          alt="cover"
-          className="size-40 sm:size-60"
-        />
+      <div>
+        <div className="flex justify-center py-4 items-center">
+          <img
+            src={currentTrack.cover}
+            alt="cover"
+            className="size-40 sm:size-60"
+          />
+        </div>
+        <div className="flex justify-end my-4">
+          <FavoriteButton track={currentTrack} size="large" />
+        </div>
       </div>
-      <div className="flex justify-end">
-        <button onClick={() => toggleFavorite(currentTrack.id)}>
-          {currentTrack.favorite ? (
-            <FavoriteIcon fontSize="large" />
-          ) : (
-            <FavoriteBorderIcon fontSize="large" />
-          )}
-        </button>
+      <div className="p-6">
+        <div className="flex items-center my-4">
+          <PlayButton />
+          <p className="md:text-2xl ml-2 font-medium">
+            {currentTrack.title} by {currentTrack.artist}
+          </p>
+        </div>
+        <ProgressBar />
+        <div className="flex justify-end mt-6 lg:hidden">
+          <button onClick={() => setShowPlaylist(prev => !prev)}>
+            <QueueMusicIcon />
+          </button>
+        </div>
       </div>
-      <div className="flex items-center mb-4">
-        <button onClick={toggleIsPlaying}>
-          {isPlaying ? (
-            <PauseCircleIcon sx={{ fontSize: 100 }} />
-          ) : (
-            <PlayCircleIcon sx={{ fontSize: 100 }} />
-          )}
-        </button>
-        <p className="text-2xl ml-2 font-medium">
-          {currentTrack.title} by {currentTrack.artist}
-        </p>
-      </div>
-      <ProgressBar />
-      <Controls />
     </>
   );
 }
