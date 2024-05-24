@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
 import { useStore, type Track } from '@/store';
-import { createHowl } from '@/lib/utils';
+import { createHowl, formatTime } from '@/lib/utils';
 
 import FavoriteButton from '@/components/FavoriteButton';
 
@@ -34,7 +34,7 @@ function Track({ track, isCurrent }: { track: Track; isCurrent: boolean }) {
             <p>{track.artist}</p>
             <p>{track.title}</p>
             <p className="text-xs text-slate-600">
-              {track.duration.padStart(5, '0')}
+              {formatTime(track.duration)}
             </p>
           </div>
         </div>

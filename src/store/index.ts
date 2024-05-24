@@ -10,7 +10,7 @@ export type Track = {
   title: string;
   cover: string;
   audioFilePath: string;
-  duration: string;
+  duration: number;
   favorite: boolean;
 };
 

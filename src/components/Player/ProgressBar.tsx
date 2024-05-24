@@ -54,9 +54,7 @@ function ProgressBar() {
       />
       <div className="flex justify-between">
         <div>{formatTime(currentTime)}</div>
-        <div>
-          {currentTrack.duration && currentTrack.duration.padStart(5, '0')}
-        </div>
+        <div>{currentTrack.duration && formatTime(currentTrack.duration)}</div>
       </div>
     </>
   );

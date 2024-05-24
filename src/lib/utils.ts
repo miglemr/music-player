@@ -36,8 +36,12 @@ export const formatTime = (timeInSeconds: number) => {
   const minutes = Math.floor(timeInSeconds / 60);
   const seconds = Math.floor(timeInSeconds % 60);
 
-  const formattedMinutes = String(minutes).padStart(2, '0');
-  const formattedSeconds = String(seconds).padStart(2, '0');
+  const date = new Date();
+  date.setMinutes(minutes);
+  date.setSeconds(seconds);
 
-  return `${formattedMinutes}:${formattedSeconds}`;
+  return new Intl.DateTimeFormat('en', {
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(date);
 };
