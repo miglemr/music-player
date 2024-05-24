@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { fetchTracks } from '@/data/fetchTracks';
-import { type Track, useStore } from '@/store';
+import { useStore } from '@/store';
 import { createHowl } from '@/lib/utils';
 
 function useTracks() {
@@ -9,7 +9,7 @@ function useTracks() {
 
   useEffect(() => {
     const getTracks = async () => {
-      const response = (await fetchTracks()) as Array<Omit<Track, 'favorite'>>;
+      const response = await fetchTracks();
 
       const tracks = response.map(responseObj => {
         return {

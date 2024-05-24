@@ -36,7 +36,9 @@ export const useStore = create<Store>()(
       audio: null,
       setCurrentTrack: (id: number) =>
         set(state => {
-          const track = state.tracks.find(track => track.id === id) as Track;
+          const track = state.tracks.find(track => track.id === id);
+
+          if (!track) return;
 
           state.currentTrack = track;
         }),
@@ -54,7 +56,9 @@ export const useStore = create<Store>()(
         }),
       toggleFavorite: (id: number) =>
         set(state => {
-          const track = state.tracks.find(track => track.id === id) as Track;
+          const track = state.tracks.find(track => track.id === id);
+
+          if (!track) return;
 
           track.favorite = !track.favorite;
 

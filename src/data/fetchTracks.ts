@@ -1,5 +1,7 @@
+import { Track } from '@/store';
+
 export const fetchTracks = () =>
-  new Promise(resolve => {
+  new Promise<Array<Omit<Track, 'favorite'>>>(resolve => {
     resolve([
       {
         id: 1,

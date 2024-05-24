@@ -29,7 +29,7 @@ npm  install
 
 ```
 
-## Running the server
+### Running the server
 
 In development mode:
 

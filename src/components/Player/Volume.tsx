@@ -13,7 +13,10 @@ function Volume() {
   }, [volume]);
 
   function handleVolumeChange(_event: Event, newValue: number | number[]) {
-    setVolume(newValue as number);
+    if (typeof newValue !== 'number') {
+      return;
+    }
+    setVolume(newValue);
   }
 
   return (
