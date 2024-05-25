@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,6 +14,20 @@ function Player() {
   const [showPlaylist, setShowPlaylist] = useState(false);
 
   const currentTrack = useCurrentTrack();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024) {
+        setShowPlaylist(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   if (showPlaylist)
     return (
