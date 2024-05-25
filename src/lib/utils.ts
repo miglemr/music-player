@@ -1,23 +1,19 @@
 import { Track } from '@/store';
 
-export const getPrevTrack = (trackArr: Track[], currentTrack: Track) => {
-  const currentIndex = trackArr.findIndex(
-    track => track.id === currentTrack.id
-  );
-  const prevTrackIndex =
-    currentIndex === 0 ? trackArr.length - 1 : currentIndex - 1;
-
-  return trackArr[prevTrackIndex];
+export const getTrack = (trackArr: Track[], currentIndex: number) => {
+  return trackArr[currentIndex];
 };
 
-export const getNextTrack = (trackArr: Track[], currentTrack: Track) => {
-  const currentIndex = trackArr.findIndex(
-    track => track.id === currentTrack.id
-  );
-  const nextTrackIndex =
-    currentIndex === trackArr.length - 1 ? 0 : currentIndex + 1;
+export const getPrevTrack = (trackArr: Track[], currentIndex: number) => {
+  const prevIndex = currentIndex === 0 ? trackArr.length - 1 : currentIndex - 1;
 
-  return trackArr[nextTrackIndex];
+  return trackArr[prevIndex];
+};
+
+export const getNextTrack = (trackArr: Track[], currentIndex: number) => {
+  const nextIndex = currentIndex === trackArr.length - 1 ? 0 : currentIndex + 1;
+
+  return trackArr[nextIndex];
 };
 
 export const createHowl = (

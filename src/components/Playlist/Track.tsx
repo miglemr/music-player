@@ -6,7 +6,7 @@ import { createHowl, formatTime } from '@/lib/utils';
 import FavoriteButton from '@/components/FavoriteButton';
 
 function Track({ track, isCurrent }: { track: Track; isCurrent: boolean }) {
-  const { audio, setCurrentTrack, setNextTrack } = useStore();
+  const { audio, setAudio, setCurrentTrackIndex, setNextTrack } = useStore();
 
   const containerClasses = classNames(
     'flex justify-between items-center m-2 p-2 text-sm font-medium rounded',
@@ -18,12 +18,10 @@ function Track({ track, isCurrent }: { track: Track; isCurrent: boolean }) {
   const handleClick = () => {
     const howl = createHowl(track.audioFilePath, true, setNextTrack);
 
-    setCurrentTrack(track.id);
+    setCurrentTrackIndex(track.id);
 
     audio?.unload();
-    useStore.setState({
-      audio: howl,
-    });
+    setAudio(howl);
   };
   return (
     <div className={containerClasses}>

@@ -10,31 +10,33 @@ import { createHowl, getNextTrack, getPrevTrack } from '@/lib/utils';
 function Controls() {
   const { isPlaying, toggleIsPlaying } = usePlayer();
 
-  const { tracks, currentTrack, setCurrentTrack, setNextTrack, audio } =
-    useStore();
+  const {
+    tracks,
+    currentTrackIndex,
+    setCurrentTrackIndex,
+    setNextTrack,
+    setAudio,
+    audio,
+  } = useStore();
 
   function handlePrevClick() {
-    const prevTrack = getPrevTrack(tracks, currentTrack);
+    const prevTrack = getPrevTrack(tracks, currentTrackIndex);
     const howl = createHowl(prevTrack.audioFilePath, true, setNextTrack);
 
-    setCurrentTrack(prevTrack.id);
+    setCurrentTrackIndex(prevTrack.id);
 
     audio?.unload();
-    useStore.setState({
-      audio: howl,
-    });
+    setAudio(howl);
   }
 
   function handleNextClick() {
-    const nextTrack = getNextTrack(tracks, currentTrack);
+    const nextTrack = getNextTrack(tracks, currentTrackIndex);
     const howl = createHowl(nextTrack.audioFilePath, true, setNextTrack);
 
-    setCurrentTrack(nextTrack.id);
+    setCurrentTrackIndex(nextTrack.id);
 
     audio?.unload();
-    useStore.setState({
-      audio: howl,
-    });
+    setAudio(howl);
   }
 
   return (

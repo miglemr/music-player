@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import { useStore } from '@/store';
+import { Track, useStore } from '@/store';
 import { usePlayer } from '@/hooks/usePlayer';
 import { formatTime } from '@/lib/utils';
 
-function ProgressBar() {
+function ProgressBar({ track }: { track: Track }) {
   const [currentTime, setCurrentTime] = useState(0);
 
   const { isPlaying } = usePlayer();
 
-  const audio = useStore(state => state.audio);
-  const currentTrack = useStore(state => state.currentTrack);
+  const { audio } = useStore();
 
   useEffect(() => {
     let timerInterval: number;
@@ -54,7 +53,7 @@ function ProgressBar() {
       />
       <div className="flex justify-between">
         <div>{formatTime(currentTime)}</div>
-        <div>{currentTrack.duration && formatTime(currentTrack.duration)}</div>
+        <div>{track.duration && formatTime(track.duration)}</div>
       </div>
     </>
   );

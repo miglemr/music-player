@@ -5,7 +5,7 @@ import { useStore } from '@/store';
 import { createHowl } from '@/lib/utils';
 
 function useTracks() {
-  const setNextTrack = useStore(state => state.setNextTrack);
+  const { setTracks, setAudio, setNextTrack } = useStore();
 
   useEffect(() => {
     const getTracks = async () => {
@@ -26,17 +26,14 @@ function useTracks() {
         if (tracks) {
           const howl = createHowl(tracks[0].audioFilePath, false, setNextTrack);
 
-          useStore.setState({ tracks });
-          useStore.setState({ currentTrack: tracks[0] });
-          useStore.setState({
-            audio: howl,
-          });
+          setTracks(tracks);
+          setAudio(howl);
         }
       })
       .catch(error => {
         // eslint-disable-next-line
         console.error(error);
       });
-  }, [setNextTrack]);
+  }, [setNextTrack, setAudio, setTracks]);
 }
 export default useTracks;

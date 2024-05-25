@@ -3,7 +3,7 @@ import { useState } from 'react';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useStore } from '@/store';
+import useCurrentTrack from '@/hooks/useCurrentTrack';
 
 import Playlist from '@/components/Playlist';
 import FavoriteButton from '@/components/FavoriteButton';
@@ -13,7 +13,7 @@ import PlayButton from './PlayButton';
 function Player() {
   const [showPlaylist, setShowPlaylist] = useState(false);
 
-  const currentTrack = useStore(state => state.currentTrack);
+  const currentTrack = useCurrentTrack();
 
   if (showPlaylist)
     return (
@@ -25,6 +25,13 @@ function Player() {
       </div>
     );
 
+  if (!currentTrack) {
+    return (
+      <div className="flex justify-center mt-10">
+        <h1>Nothing to show</h1>
+      </div>
+    );
+  }
   return (
     <>
       <div className="bg-stone-800 p-4">
@@ -50,7 +57,7 @@ function Player() {
             {currentTrack.title} by {currentTrack.artist}
           </p>
         </div>
-        <ProgressBar />
+        <ProgressBar track={currentTrack} />
         <div className="flex justify-end mt-6 lg:hidden">
           <button onClick={() => setShowPlaylist(prev => !prev)}>
             <QueueMusicIcon />

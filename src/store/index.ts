@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools } from 'zustand/middleware';
 
-import { createHowl, getNextTrack } from '@/lib/utils';
+import { createHowl } from '@/lib/utils';
 
 export type Track = {
   id: number;
@@ -16,12 +16,14 @@ export type Track = {
 
 type State = {
   tracks: Track[];
-  currentTrack: Track;
+  currentTrackIndex: number;
   audio: Howl | null;
 };
 
 type Actions = {
-  setCurrentTrack: (id: number) => void;
+  setTracks: (tracks: Track[]) => void;
+  setCurrentTrackIndex: (id: number) => void;
+  setAudio: (audio: Howl) => void;
   setNextTrack: () => void;
   toggleFavorite: (id: number) => void;
 };
@@ -32,26 +34,27 @@ export const useStore = create<Store>()(
   immer(
     devtools(set => ({
       tracks: [],
-      currentTrack: {} as Track,
+      currentTrackIndex: 0,
       audio: null,
-      setCurrentTrack: (id: number) =>
+      setTracks: tracks => set({ tracks }),
+      setCurrentTrackIndex: (id: number) =>
         set(state => {
-          const track = state.tracks.find(track => track.id === id);
-
-          if (!track) return;
-
-          state.currentTrack = track;
+          state.currentTrackIndex = state.tracks.findIndex(
+            track => track.id === id
+          );
         }),
+      setAudio: (audio: Howl) => set({ audio }),
       setNextTrack: () =>
         set(state => {
-          const nextTrack = getNextTrack(state.tracks, state.currentTrack);
+          const nextTrack = state.tracks[state.currentTrackIndex + 1];
+
           const howl = createHowl(
             nextTrack.audioFilePath,
             true,
             state.setNextTrack
           );
 
-          state.currentTrack = nextTrack;
+          state.currentTrackIndex = nextTrack.id;
           state.audio = howl;
         }),
       toggleFavorite: (id: number) =>
@@ -61,9 +64,6 @@ export const useStore = create<Store>()(
           if (!track) return;
 
           track.favorite = !track.favorite;
-
-          if (id === state.currentTrack.id)
-            state.currentTrack.favorite = !state.currentTrack.favorite;
         }),
     }))
   )
