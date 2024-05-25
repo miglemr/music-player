@@ -12,12 +12,12 @@ function Volume() {
     Howler.volume(volume);
   }, [volume]);
 
-  function handleVolumeChange(_event: Event, newValue: number | number[]) {
+  const handleVolumeChange = (_event: Event, newValue: number | number[]) => {
     if (typeof newValue !== 'number') {
       return;
     }
     setVolume(newValue);
-  }
+  };
 
   return (
     <div className="flex items-center">

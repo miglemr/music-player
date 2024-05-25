@@ -5,7 +5,7 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 import { useStore } from '@/store';
 import { usePlayer } from '@/hooks/usePlayer';
-import { createHowl, getNextTrack, getPrevTrack } from '@/lib/utils';
+import { createHowl, getPrevTrack, getNextTrack } from '@/lib/utils';
 
 function Controls() {
   const { isPlaying, toggleIsPlaying } = usePlayer();
@@ -19,29 +19,26 @@ function Controls() {
     audio,
   } = useStore();
 
-  function handlePrevClick() {
-    const prevTrack = getPrevTrack(tracks, currentTrackIndex);
-    const howl = createHowl(prevTrack.audioFilePath, true, setNextTrack);
+  const handleClick = (prevOrNext: 'prev' | 'next') => {
+    let nextTrack;
 
-    setCurrentTrackIndex(prevTrack.id);
+    if (prevOrNext === 'prev') {
+      nextTrack = getPrevTrack(tracks, currentTrackIndex);
+    } else {
+      nextTrack = getNextTrack(tracks, currentTrackIndex);
+    }
 
-    audio?.unload();
-    setAudio(howl);
-  }
-
-  function handleNextClick() {
-    const nextTrack = getNextTrack(tracks, currentTrackIndex);
     const howl = createHowl(nextTrack.audioFilePath, true, setNextTrack);
 
     setCurrentTrackIndex(nextTrack.id);
 
     audio?.unload();
     setAudio(howl);
-  }
+  };
 
   return (
     <div>
-      <button onClick={handlePrevClick}>
+      <button onClick={() => handleClick('prev')}>
         <SkipPreviousIcon sx={{ color: '#fff' }} />
       </button>
       <button onClick={toggleIsPlaying}>
@@ -51,7 +48,7 @@ function Controls() {
           <PlayArrowIcon sx={{ color: '#fff' }} />
         )}
       </button>
-      <button onClick={handleNextClick}>
+      <button onClick={() => handleClick('next')}>
         <SkipNextIcon sx={{ color: '#fff' }} />
       </button>
     </div>

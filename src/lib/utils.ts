@@ -1,9 +1,5 @@
 import { Track } from '@/store';
 
-export const getTrack = (trackArr: Track[], currentIndex: number) => {
-  return trackArr[currentIndex];
-};
-
 export const getPrevTrack = (trackArr: Track[], currentIndex: number) => {
   const prevIndex = currentIndex === 0 ? trackArr.length - 1 : currentIndex - 1;
 
