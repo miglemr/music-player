@@ -5,8 +5,8 @@ import useTracks from '@/hooks/useTracks';
 
 import Player from '@/components/Player';
 import Playlist from '@/components/Playlist';
-import Controls from '@/components/Player/Controls';
-import Volume from '@/components/Player/Volume';
+import Controls from '@/components/Player/components/Controls';
+import Volume from '@/components/Player/components/Volume';
 
 function App() {
   const status = useTracks();

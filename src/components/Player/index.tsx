@@ -7,8 +7,8 @@ import useCurrentTrack from '@/hooks/useCurrentTrack';
 
 import Playlist from '@/components/Playlist';
 import FavoriteButton from '@/components/FavoriteButton';
-import ProgressBar from './ProgressBar';
-import PlayButton from './PlayButton';
+import ProgressBar from './components/ProgressBar';
+import PlayButton from './components/PlayButton';
 
 function Player() {
   const [showPlaylist, setShowPlaylist] = useState(false);
