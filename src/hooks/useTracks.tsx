@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { fetchTracks } from '@/data/fetchTracks';
 import { useStore } from '@/store';
 import { createHowl } from '@/lib/utils';
 
 function useTracks() {
+  const [status, setStatus] = useState('');
+
   const { setTracks, setAudio, setNextTrack } = useStore();
 
   useEffect(() => {
@@ -33,7 +35,11 @@ function useTracks() {
       .catch(error => {
         // eslint-disable-next-line
         console.error(error);
+
+        setStatus('error');
       });
   }, [setNextTrack, setAudio, setTracks]);
+
+  return status;
 }
 export default useTracks;
