@@ -1,44 +1,45 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
-import { Track, useStore } from '@/store';
-import { usePlayer } from '@/hooks/usePlayer';
-import { formatTime } from '@/lib/utils';
+import { Track, useStore } from '@/store'
+import { usePlayer } from '@/hooks/usePlayer'
+import { formatTime } from '@/lib/utils'
+import { selectAudio } from '@/store/selectors'
 
 function ProgressBar({ track }: { track: Track }) {
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0)
 
-  const { isPlaying } = usePlayer();
+  const { isPlaying } = usePlayer()
 
-  const { audio } = useStore();
+  const audio = useStore(selectAudio)
 
   useEffect(() => {
-    let timerInterval: number;
+    let timerInterval: number
 
     const updateCurrentTime = () => {
       if (audio) {
-        const seek = Math.round(audio.seek());
-        setCurrentTime(seek);
+        const seek = Math.round(audio.seek())
+        setCurrentTime(seek)
       }
-    };
+    }
 
     if (isPlaying) {
-      timerInterval = setInterval(updateCurrentTime, 1000);
+      timerInterval = setInterval(updateCurrentTime, 1000)
     }
 
     return () => {
-      clearInterval(timerInterval);
-    };
-  }, [audio, isPlaying]);
+      clearInterval(timerInterval)
+    }
+  }, [audio, isPlaying])
 
   useEffect(() => {
-    setCurrentTime(0);
-  }, [audio]);
+    setCurrentTime(0)
+  }, [audio])
 
   const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const seekTime = parseInt(e.target.value, 10);
-    setCurrentTime(seekTime);
-    audio?.seek(seekTime);
-  };
+    const seekTime = parseInt(e.target.value, 10)
+    setCurrentTime(seekTime)
+    audio?.seek(seekTime)
+  }
 
   return (
     <>
@@ -56,6 +57,6 @@ function ProgressBar({ track }: { track: Track }) {
         <div>{track.duration && formatTime(track.duration)}</div>
       </div>
     </>
-  );
+  )
 }
-export default ProgressBar;
+export default ProgressBar

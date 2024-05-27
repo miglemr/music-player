@@ -1,33 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import CloseIcon from '@mui/icons-material/Close';
+import QueueMusicIcon from '@mui/icons-material/QueueMusic'
+import CloseIcon from '@mui/icons-material/Close'
 
-import useCurrentTrack from '@/hooks/useCurrentTrack';
-
-import Playlist from '@/components/Playlist';
-import FavoriteButton from '@/components/FavoriteButton';
-import ProgressBar from './components/ProgressBar';
-import PlayButton from './components/PlayButton';
+import Playlist from '@/components/Playlist'
+import FavoriteButton from '@/components/FavoriteButton'
+import ProgressBar from './components/ProgressBar'
+import PlayButton from './components/PlayButton'
+import { useStore } from '@/store'
+import { selectCurrentTrack } from '@/store/selectors'
 
 function Player() {
-  const [showPlaylist, setShowPlaylist] = useState(false);
+  const [showPlaylist, setShowPlaylist] = useState(false)
 
-  const currentTrack = useCurrentTrack();
+  const currentTrack = useStore(selectCurrentTrack)
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1024) {
-        setShowPlaylist(false);
+        setShowPlaylist(false)
       }
-    };
+    }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   if (showPlaylist)
     return (
@@ -37,31 +37,23 @@ function Player() {
         </button>
         <Playlist />
       </div>
-    );
+    )
 
   if (!currentTrack) {
     return (
       <div className="flex justify-center mt-10">
         <h1>Nothing to show</h1>
       </div>
-    );
+    )
   }
   return (
     <>
       <div className="bg-stone-800 p-4">
         <div className="flex justify-center py-4 items-center">
-          <img
-            src={currentTrack.cover}
-            alt="cover"
-            className="size-40 sm:size-60"
-          />
+          <img src={currentTrack.cover} alt="cover" className="size-40 sm:size-60" />
         </div>
         <div className="flex justify-end my-4">
-          <FavoriteButton
-            track={currentTrack}
-            size="large"
-            borderColor="#C73659"
-          />
+          <FavoriteButton track={currentTrack} size="large" borderColor="#C73659" />
         </div>
       </div>
       <div className="p-6">
@@ -79,7 +71,7 @@ function Player() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Player;
+export default Player
