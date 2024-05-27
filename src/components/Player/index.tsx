@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react'
 import QueueMusicIcon from '@mui/icons-material/QueueMusic'
 import CloseIcon from '@mui/icons-material/Close'
 
+import { useStore } from '@/store'
+import { selectCurrentTrack } from '@/store/selectors'
+
 import Playlist from '@/components/Playlist'
 import FavoriteButton from '@/components/FavoriteButton'
 import ProgressBar from './components/ProgressBar'
 import PlayButton from './components/PlayButton'
-import { useStore } from '@/store'
-import { selectCurrentTrack } from '@/store/selectors'
 
 function Player() {
   const [showPlaylist, setShowPlaylist] = useState(false)

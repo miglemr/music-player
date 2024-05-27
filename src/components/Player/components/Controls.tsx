@@ -4,9 +4,9 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
 
 import { useStore } from '@/store'
+import { selectAudio, selectCurrentTrackIndex, selectTracks } from '@/store/selectors'
 import { usePlayer } from '@/hooks/usePlayer'
 import { createHowl, getPrevTrack, getNextTrack } from '@/lib/utils'
-import { selectAudio, selectCurrentTrackIndex, selectTracks } from '@/store/selectors'
 
 function Controls() {
   const { isPlaying, toggleIsPlaying } = usePlayer()

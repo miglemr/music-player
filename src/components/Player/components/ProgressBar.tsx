@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
 import { Track, useStore } from '@/store'
+import { selectAudio } from '@/store/selectors'
 import { usePlayer } from '@/hooks/usePlayer'
 import { formatTime } from '@/lib/utils'
-import { selectAudio } from '@/store/selectors'
 
 function ProgressBar({ track }: { track: Track }) {
   const [currentTime, setCurrentTime] = useState(0)
